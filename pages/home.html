@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Blogs</title>
+	<style>
+		html, body {
+			background-color: blue;
+			color: white;
+			margin: 0;
+		}
+		a {
+			background-color: gray;
+			color: white;
+			padding: 5px 10px;
+			text-decoration: none;
+			border-radius: 3px;
+		}
+		a:hover {
+			background-color: darkgray;
+		}
+		.navbar {
+			padding: 10px;
+			background-color: blue;
+		}
+		.container {
+			margin: 15px;
+			height: auto;
+		}
+		.card {
+			border: 2px solid gray;
+			padding: 10px;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="navbar">
+		<h2>My Blogs</h2>
+		<a href="/create">Create a new blog ></a>
+		<hr>
+	</div>
+	<br>
+	<div id="container" class="container"></div>
+	<script>
+	async function loadBlogs() {
+		try {
+			const response = await fetch("/api/getBlogs");
+			const data = await response.json();
+			const container = document.getElementById("container");
+			container.innerHTML = "";
+
+			data.forEach(item => {
+				const card = document.createElement("div");
+				card.className = "card";
+				card.innerHTML = `
+					<u><h3>${item.title}</h3></u>
+					<p>${item.content}</p>
+				`;
+				container.appendChild(card);
+			});
+		} catch (error) {
+			console.error("Error loading blogs:", error);
+		}
+	}
+	document.addEventListener("DOMContentLoaded", loadBlogs);
+</script>
+</body>
+</html>

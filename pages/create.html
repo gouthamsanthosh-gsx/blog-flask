@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Blog</title>
+	<style>
+		html, body {
+			background-color: blue;
+			color: white;
+			margin: 0;
+		}
+		a {
+			background-color: gray;
+			color: white;
+			padding: 5px 10px;
+			text-decoration: none;
+			border-radius: 3px;
+		}
+		a:hover {
+			background-color: darkgray;
+		}
+		.navbar {
+			padding: 10px;
+			background-color: blue;
+		}
+		.container {
+			margin: 15px;
+			height: auto;
+		}
+		.form-group {
+			margin-bottom: 15px;
+		}
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+		input[type="text"], textarea {
+			width: 100%;
+			padding: 8px;
+			border: 2px solid gray;
+			border-radius: 5px;
+			box-sizing: border-box;
+			background-color: blue;
+			color: white;
+		}
+		textarea {
+			height: 150px;
+			resize: vertical;
+		}
+		button {
+			background-color: gray;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: darkgray;
+		}
+	</style>
+</head>
+<body>
+	<div class="navbar">
+		<h2>Create a New Blog</h2>
+		<a href="/">← Back to Blogs</a>
+		<hr>
+	</div>
+
+	<div class="container">
+		<form id="blogForm">
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input type="text" id="title" name="title" required>
+			</div>
+			<div class="form-group">
+				<label for="content">Content</label>
+				<textarea id="content" name="content" required></textarea>
+			</div>
+			<button type="submit">Submit</button>
+		</form>
+	</div>
+
+	<script>
+		document.getElementById("blogForm").addEventListener("submit", async (e) => {
+			e.preventDefault();
+
+			const title = document.getElementById("title").value.trim();
+			const content = document.getElementById("content").value.trim();
+			const message = document.getElementById("message");
+
+			const response = await fetch("/api/create", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ title, content }),
+			});
+
+			setTimeout(() => {
+				window.location.href = "/";
+			}, 1500);
+		});
+	</script>
+</body>
+</html>
